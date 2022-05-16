@@ -15,7 +15,7 @@ FILE_LISTS	+= $(TVIP_AXI_HOME)/sample/env/compile.f
 SOURCE_FILES	+= $(TVIP_AXI_HOME)/sample/env/tvip_axi_sample_delay.sv
 SOURCE_FILES	+= $(TVIP_AXI_HOME)/sample/env/top.sv
 
-SIMULATOR	?= vcs
+SIMULATOR	?= questa
 RANDOM_SEED	?= auto
 DUMP	?= off
 GUI	?= off

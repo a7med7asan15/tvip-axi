@@ -3,10 +3,10 @@ VLOG_ARGS	+= -sv
 VLOG_ARGS	+= -l compile.log
 VLOG_ARGS	+= -timescale=1ns/1ps
 VLOG_ARGS	+= +define+UVM_NO_DEPRECATED+UVM_OBJECT_MUST_HAVE_CONSTRUCTO
-VLOG_ARGS	+= -top top
 
 VSIM_ARGS	+= -l vsim.log
-VSIM_ARGS	+= -f test.f
+VSIM_ARGS	+= -f ./$(TEST)/test.f
+VSIM_ARGS	+= top_opt
 
 ifeq ($(strip $(RANDOM_SEED)), auto)
 	VSIM_ARGS	+= -sv_seed 1
@@ -40,6 +40,10 @@ ifeq ($(strip $(GUI)), verdi)
 	VSIM_ARGS	+= -gui=verdi
 endif
 
+ifeq ($(strip $(GUI)), off)
+	VSIM_ARGS	+= -c
+endif
+
 CLEAN_TARGET	+= simv*
 CLEAN_TARGET	+= csrc
 CLEAN_TARGET	+= *.h
@@ -57,7 +61,7 @@ CLEAN_ALL_TARGET += .inter.vpd.uvm
 
 sim_questa:
 	[ -f simv ] || ($(MAKE) compile_questa)
-	cd $(TEST); ../simv $(VSIM_ARGS)
+	vopt top -o top_opt -suppress 7033; vsim $(VSIM_ARGS) -suppress 7033
 
 compile_questa:
 	vlog $(VLOG_ARGS) $(addprefix -f , $(FILE_LISTS)) $(SOURCE_FILES)

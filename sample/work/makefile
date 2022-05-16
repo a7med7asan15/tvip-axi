@@ -48,4 +48,5 @@ clean_all:
 	rm -rf $(addprefix */,$(CLEAN_ALL_TARGET))
 
 include vcs.mk
+include questa.mk
 include xcelium.mk
